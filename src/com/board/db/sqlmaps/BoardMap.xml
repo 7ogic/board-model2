@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.board.dto.Board">
+	<resultMap id="boardResultMap" type="Board">
+		<id property="boardSeq" column="board_seq" />
+	</resultMap>
+
+	<select id="getArticleList" resultMap="boardResultMap" resultType="Board">
+		SELECT *
+		FROM BOARD
+		ORDER
+		BY BOARD_SEQ DESC
+	</select>
+
+	<select id="getArticle" resultMap="boardResultMap" resultType="Board"
+	    parameterType="java.lang.Integer">
+	    SELECT *
+	    FROM BOARD
+	    WHERE BOARD_SEQ = #{boardSeq}
+	</select>
+	
+	<insert id="insertArticle" parameterType="Board" 
+	    statementType="PREPARED" timeout="20">
+		INSERT INTO BOARD(TITLE, WRITER, REGDATE, COUNT, CONTENT, REGIP)
+		VALUES (#{title}, #{writer}, #{regDate}, #{count}, #{content}, #{regIp})
+	</insert>
+	
+	<update id="setArticleCount" parameterType="board">
+	    UPDATE BOARD SET COUNT = #{count}
+	    WHERE BOARD_SEQ = #{boardSeq}
+	</update>
+	
+	
+</mapper>
